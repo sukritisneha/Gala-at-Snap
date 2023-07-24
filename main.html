@@ -1,0 +1,1559 @@
+login1.php
+<?php 
+
+session_start(); 
+
+include "db_conn1.php";
+
+if (isset($_POST['uname']) && isset($_POST['password'])) {
+
+    function validate($data){
+
+       $data = trim($data);
+
+       $data = stripslashes($data);
+
+       $data = htmlspecialchars($data);
+
+       return $data;
+
+    }
+
+    $uname = validate($_POST['uname']);
+
+    $pass = validate($_POST['password']);
+
+    if (empty($uname)) {
+
+        header("Location: index1.php?error=User Name is required");
+
+        exit();
+
+    }else if(empty($pass)){
+
+        header("Location: index1.php?error=Password is required");
+
+        exit();
+
+    }else{
+
+        $sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) === 1) {
+
+            $row = mysqli_fetch_assoc($result);
+
+            if ($row['user_name'] === $uname && $row['password'] === $pass) {
+
+                echo "Logged in!";
+
+                $_SESSION['user_name'] = $row['user_name'];
+
+                $_SESSION['name'] = $row['name'];
+
+                $_SESSION['id'] = $row['id'];
+
+                header("Location: home1.php");
+
+                exit();
+
+            }else{
+
+                header("Location: index1.php?error=Incorect User name or password");
+
+                exit();
+
+            }
+
+        }else{
+
+            header("Location: index.php?error=Incorect User name or password");
+
+            exit();
+
+        }
+
+    }
+
+}else{
+
+    header("Location: index.php");
+
+    exit();
+
+}
+?>
+
+home.php
+<?php 
+
+session_start();
+
+if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
+
+ ?>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>HOME</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+
+     <h1>Hello, <?php echo $_SESSION['name']; ?></h1>
+
+     <a href="logout.php">Logout</a>
+	 <a href="projet_6.html">paid ideas</a>
+
+</body>
+
+</html>
+
+<?php 
+
+}else{
+
+     header("Location: index.php");
+
+     exit();
+
+}
+
+ ?>
+
+logout1.php
+<?php 
+
+session_start();
+
+session_unset();
+
+session_destroy();
+
+header("Location: index1.php");
+?>
+
+db_conn1.php
+<?php
+
+$sname= "localhost";
+
+$unmae= "root";
+
+$password = "";
+
+$db_name = "test_db";
+
+$conn = mysqli_connect($sname, $unmae, $password, $db_name);
+
+if (!$conn) {
+
+    echo "Connection failed!";
+
+}
+?>
+
+index1.php
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>LOGIN</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+</header>
+		
+
+     <form action="login1.php" method="post">
+
+        <h2>ADMIN LOGIN</h2>
+
+        <?php if (isset($_GET['error'])) { ?>
+
+            <p class="error"><?php echo $_GET['error']; ?></p>
+
+        <?php } ?>
+
+        <label>User Name</label>
+
+        <input type="text" name="uname" placeholder="User Name"><br>
+
+        <label>Password</label>
+
+        <input type="password" name="password" placeholder="Password"><br> 
+
+        <button type="submit">Login</button>
+
+     </form>
+
+</body>
+
+</html>
+
+index.php
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>LOGIN</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+</header>
+
+     <form action="login.php" method="post">
+
+        <h2>USER LOGIN</h2>
+
+        <?php if (isset($_GET['error'])) { ?>
+
+            <p class="error"><?php echo $_GET['error']; ?></p>
+
+        <?php } ?>
+
+        <label>User Name</label>
+
+        <input type="text" name="uname" placeholder="User Name"><br>
+
+        <label>Password</label>
+
+        <input type="password" name="password" placeholder="Password"><br> 
+
+        <button type="submit">Login</button>
+
+     </form>
+
+</body>
+
+</html>
+
+event1.html
+<!DOCTYPE html>
+<html>
+<head><title>birthday</title>
+<style type="text/css">
+body{background: url('color bg14.jpg');
+background-size: 100%;
+background- repeat:repeat-y;
+height: 900px;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: black;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+.content {
+		background: url('color bg 16.jpg');
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 20px 250px;
+        padding: 50px;
+        width: 70%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="project_1.html" class="active">Home</a></li>
+                <li><a href="project_4.html">About Us</a></li>
+                <li><a href="project_5.html">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+</header>
+<div class="content">
+
+<p>idea 1 for kids</p>
+
+  <p>Items needed for decoration:
+  <ul>
+      <li> Foil curtains</li>
+       <li>Balloons </li>
+       <li>Happy Birthday Banner</li>
+       <li>center table</li>
+       <li>tapes</li>
+       <li>theme related props</li>
+</ul></p>
+ <p>decoration:</br>
+
+ If the cartoon theme is doremon then use blue foil curtains for the 
+ walls. Then after that use blue and white balloons. Arrange the balloons
+ in alternative manner and place it on top.
+ Take print out so the birthday props like Doremon characters and 
+ place it on sides.</br>
+ Use Happy Birthday banner and place it in center.</br>
+ For the center table cover it with blue cloth and use doremon
+ theme cake.</br></p>
+
+<p>Food and refreshments:</br>
+ <ul>
+<li>Small cake pops</li>
+<li>French fries</li>
+<li>Cookies</li>
+<li>Chips</li>
+<li>Lemonade</li>
+<li>frooti </li>
+<li>coin size pizza</li>
+<li>noodles</li>
+<li>Sandwich</li>
+</ul></p>
+<p>Return Gift
+ <ul>
+ <li>Colouring book and colours</li>
+ <li>Small note books</li>
+ <li>water bottles</li>
+ <li>sationary packets</li>
+ <li>pencile box</li>
+ <li>pen stand</li>
+ </ul></p>
+ 
+<p>idea 2. for adults:</br>
+ 
+ decoration items:</br>
+  <ul>
+  <li>fairy lights</li>
+  <li>ballons</li>
+  <li>white curtains</li>
+  <li>happy birthday balloon banner</li>
+  </ul>
+
+decoration:</br>
+ 1st place the white cloth or white curtains on the wall. Then place 
+ the happy birthday banner at the center it will be better if the colour 
+ of the banner is golden as the fairy lights used around the background
+ is warm color. Use silver and black balloons and scatter them around.
+ Now over the center table with golden foil curtains and place the cake 
+ at the center of the table.</br>
+
+Food and Refreshments:</br>
+ snacks veg:</br>
+   <ul>
+   <li>samosa</li>
+   <li>pakoras</li>
+   <li>hara bhara kabab</li>
+   <li>chips</li>
+   </ul>
+  snacks non veg:</br>
+    <ul>
+	<li>chicken chilli</li>
+    <li>chicken puff</li>
+    <li>devil egg</li>
+    <li>chicken popcorns</li>
+	</ul>
+ refreshment:</br>
+  <ul><li>cocktails and mocktails</li></ul>
+  </p>
+  </div>
+  </body>
+  </html>
+project_1.html
+<!DOCTYPE html>
+<html>
+<head><title>home page</title>
+<style type="text/css">
+body{background: url('color bg4.jpg');
+background-size: 100%;
+height: 1000px;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.right {
+        position: absolute;
+        right: 50px;
+        top: 50px;
+        display: inline-block;
+        <--border: 2px solid yellow;-->
+    }
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+	
+	.p1{ background: url('color bg7.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+	padding: 43px;
+	margin: 65px;
+	z-index:5;
+	}
+	<--.container{
+	border: 2px solid pink;
+	background-color: yellow;
+	height:3344px;
+	}-->
+	.options{ display: inline-block;
+	border: 2px solid black;
+	}
+	#one{ position: relative;
+	top:100px;
+	left: 300px;
+	}
+	#two{ position: relative;
+	top:100px;
+	left: 350px;
+	}
+	#three{ position:relative;
+	top: 100px;
+	left:400px;
+	}
+	#four{ position: absolute;
+	top: 550px;
+	left: 475px;
+	}
+	#five{ position: absolute;
+	top: 550px;
+	left: 775px;
+	}
+	.options img{ width:250px;
+	height:250px;
+	}
+	.btn {
+        font-family: 'Baloo Bhai', cursive;
+        margin: 0px 9px;
+        background-color: white;
+        color: purple;
+        padding: 4px 14px;
+        border: 2px solid grey;
+        border-radius: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+	
+	
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="project_4.html">About Us</a></li>
+                <li><a href="project_5.html">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+		<div class="right">
+            <button class="btn" onclick="window.location.href='http://localhost:2312/miniprj/index.php';">User Login</button>
+            <button class="btn" onclick="window.location.href='http://localhost:2312/miniprj/index1.php';">Admin Login</button>
+        </div>
+</header>
+<div class='container'>
+<div class='options' id='one'>
+<a href='event1.html'><img src='birthday.png' alt='event- birthday' width='150px'></a>
+</div>
+<div class='options' id='two'>
+<a href='event2.html'><img src='wedding_anniversary.png' alt='event- wedding anniversary' width='150px'></a>
+</div>
+<div class='options' id='three'>
+<a href='event3.html'><img src='get_together.png' alt='event- get together' width='150px'></a>
+</div>
+<div class='options' id='four'>
+<a href='event4.html'><img src='tea_party.png' alt='event- tea party' width='150px'></a>
+</div>
+<div class='options' id='five'>
+<a href='event5.html'><img src='house_warming.png' alt='event- house warming' width='150px'></a>
+</div>
+</div>
+</body>
+
+</html>
+
+project_3.html
+<!DOCTYPE html>
+<html>
+<head><title>idea</title>
+</head>
+<style type="text/css">
+body{background: url('color bg14.jpg');
+background-size: 100%;
+background- repeat:no-repeat;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: black;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+.content {
+		background: url('color bg 16.jpg');
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 120px 250px;
+        padding: 50px;
+        width: 70%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+</header>
+<div class="content">
+<form action="http://localhost:2312/miniprj/gdata.php" method="post">
+Add your creative ideas here!
+<textarea rows="10" cols="50" name="textbox1"></textarea>
+<input type="submit" value="add">
+</form>
+</div>
+</body>
+</html>
+
+project_2.html
+<!DOCTYPE html>
+<html>
+<head><title>payment</title>
+<script type="text/javascript">
+function msg()
+{
+var emsg="";
+emsg="details submited successfully!";
+alert(emsg);
+}
+
+</script>
+<style type="text/css">
+body{background: teal;;
+background-size: 100%;
+background-repeat: no-repeat;
+height: 900px;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+
+.content {
+		background: white;
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 200px 525px;
+        padding: 50px;
+        width: 25%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+    }
+	.btn {
+        font-family: 'Baloo Bhai', cursive;
+        margin: 0px 9px;
+        background-color: white;
+        color: purple;
+        padding: 4px 14px;
+        border: 2px solid grey;
+        border-radius: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .content div{
+        padding: 10px;
+    }
+input{
+    margin: 10px;
+}
+h2{
+    text-align: center;
+}
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='MoneyTransfer.png' alt='logo-image'>
+</div>
+
+		</header>
+<div class="content">
+    <h2>PAYMENT</h2>
+    <form>
+        <div>
+            Name: <input type="text" name='fname'>     
+        </div>
+		<div>
+		select bank: 
+		<p><input type="radio" class="bnk" id="sbi">State Bank of India</p>
+		<p><input type="radio" class="bnk" id="hdfc">HDFC Bank</p>
+		<p><input type="radio" class="bnk" id="idfc">IDFC First bank</p>
+		<p><input type="radio" class="bnk" id="idbi"> IDBI bank</p>
+		<p><input type="radio" class="bnk" id="ib"> Indian Bank</p>
+		</div>
+		<div>
+		card Number: <input tyoe="text" name='cn'>
+		</div>
+        <div>
+            Valid through: <input type="date" name='vt'>    
+        </div>
+        <div>
+            cvv: <input type="password" name='cp'>    
+        </div>
+        <div>
+            <input type="submit" value="submit now" onclick="msg()">
+        </div>
+    </form>
+    </div>
+</body>
+</html>
+
+project_4.html
+<!DOCTYPE html>
+<html>
+<head><title>about us</title>
+<style type="text/css">
+body{background: url('color bg14.jpg');
+background-size: 100%;
+background- repeat:repeat-y;
+height: 900px;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: black;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+.content {
+		background: url('color bg 16.jpg');
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 20px 250px;
+        padding: 50px;
+        width: 70%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="project_1.html">Home</a></li>
+                <li><a href="#" class="active">About Us</a></li>
+                <li><a href="project_5.html">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+</header>
+<body>
+<div class="content">
+<center>ABOUT US</center>
+<p>There are many events in day to day life of a person that brings joy and requires celebrations.
+There are also many special occasions in our life that we want to make special and memorable.
+So there is a need in our leisure to organize those special events properly which requires some creativity and extra efforts of making all the arrangements.
+Then there are some professionals who work for making our special moments even more special by putting their creative ideas about managing such events but they do not usually get much opportunities.
+So here comes this website for event managers to showcase their ideas and then getting job opportunities and also common people can find better ideas to make their small functions also memorable.
+</p>
+</div>
+</body>
+</html>
+
+project_5.html
+<!DOCTYPE html>
+<html>
+<head><title>Contact us</title>
+<style type="text/css">
+body{background: url('color bg14.jpg');
+background-size: 100%;
+background- repeat:repeat-y;
+height: 900px;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: black;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+.content {
+		background: url('color bg 16.jpg');
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 20px 250px;
+        padding: 50px;
+        width: 70%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="project_1.html">Home</a></li>
+                <li><a href="project_4.html">About Us</a></li>
+                <li><a href="#" class="active">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+</header>
+<div class="content">
+<center>CONTACT US</center>
+<p>3rd floor, ABC Towers, MP nagar, Bangalore, Karnataka</p>
+<p> call: 09987654321</p>
+<p> working hours: monday to saturday:- 10am - 7pm</p>
+</div>
+</body>
+</html>
+
+login.php
+<?php 
+
+session_start(); 
+
+include "db_conn.php";
+
+if (isset($_POST['uname']) && isset($_POST['password'])) {
+
+    function validate($data){
+
+       $data = trim($data);
+
+       $data = stripslashes($data);
+
+       $data = htmlspecialchars($data);
+
+       return $data;
+
+    }
+
+    $uname = validate($_POST['uname']);
+
+    $pass = validate($_POST['password']);
+
+    if (empty($uname)) {
+
+        header("Location: index.php?error=User Name is required");
+
+        exit();
+
+    }else if(empty($pass)){
+
+        header("Location: index.php?error=Password is required");
+
+        exit();
+
+    }else{
+
+        $sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) === 1) {
+
+            $row = mysqli_fetch_assoc($result);
+
+            if ($row['user_name'] === $uname && $row['password'] === $pass) {
+
+                echo "Logged in!";
+
+                $_SESSION['user_name'] = $row['user_name'];
+
+                $_SESSION['name'] = $row['name'];
+
+                $_SESSION['id'] = $row['id'];
+
+                header("Location: home.php");
+
+                exit();
+
+            }else{
+
+                header("Location: index.php?error=Incorect User name or password");
+
+                exit();
+
+            }
+
+        }else{
+
+            header("Location: index.php?error=Incorect User name or password");
+
+            exit();
+
+        }
+
+    }
+
+}else{
+
+    header("Location: index.php");
+
+    exit();
+
+}
+?>
+
+db_conn.php
+<?php
+
+$sname= "localhost";
+
+$unmae= "root";
+
+$password = "";
+
+$db_name = "test_db";
+
+$conn = mysqli_connect($sname, $unmae, $password, $db_name);
+
+if (!$conn) {
+
+    echo "Connection failed!";
+
+}
+?>
+
+logout.php
+<?php 
+
+session_start();
+
+session_unset();
+
+session_destroy();
+
+header("Location: index.php");
+?>
+
+home1.php
+<?php 
+
+session_start();
+
+if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
+
+ ?>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>HOME</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+
+     <h1>Hello, <?php echo $_SESSION['name']; ?></h1>
+
+     <a href="logout1.php">Logout</a>
+	 <a href="emp1.html">Add idea</a>
+
+</body>
+
+</html>
+
+<?php 
+
+}else{
+
+     header("Location: index1.php");
+
+     exit();
+
+}
+
+ ?>
+
+emp1.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>ideas</title>
+<style type="text/css">
+body{background: url('color bg14.jpg');
+background-size: 100%;
+background- repeat:no-repeat;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: black;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+.content {
+		background: url('color bg 16.jpg');
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 120px 250px;
+        padding: 50px;
+        width: 70%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="project_1.html" class="active">Home</a></li>
+                <li><a href="project_4.html">About Us</a></li>
+                <li><a href="project_5.html">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+</header>
+<div class="content">
+<i style="color:red;font-size:20pt">Add your creative ideas here</i>
+<form action="http://localhost:2312/miniprj/insert1.php" method="post">
+Idea:<input type="text" name="name"/><br />
+Enter id:<input type="text" name="emp_id"/><br />
+Enter experience:<input type="text" name="exp"/><br />
+<input type="submit" value="submit details"/>
+<input type="reset" value="reset"/>
+</form>
+</div>
+</body>
+</html>
+
+insert1.php
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insertion of Employee information to Database</title>
+<style type="text/css">
+body{background: url('color bg14.jpg');
+background-size: 100%;
+background- repeat:no-repeat;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: black;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+.content {
+		background: url('color bg 16.jpg');
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 120px 250px;
+        padding: 50px;
+        width: 70%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+</header>
+<div class="content">
+<?php
+$name=$_POST['name'];
+$emp_id=$_POST['emp_id'];
+$exp=$_POST['exp'];
+$con=mysqli_connect("localhost","root","");
+if(!($con))
+{
+	die("error in connecting to DB");
+}
+else
+{
+	print "<i style='color:green'>connection successfull</i><br />";
+}
+$db=mysqli_select_db($con,"userinfo");
+$query="insert into user_detail values('$name',$emp_id,$exp)";
+mysqli_query($con,$query);
+$result=mysqli_query($con,"select * from user_detail");
+$rows=mysqli_num_rows($result);
+echo "<i style='color:blue'>num of rows inserted into the user_detail table are $rows</i>";
+echo "<table border='1'><tr><th>idea</th><th>id</th><th>exp</th></tr>";
+for($row=1;$row<=$rows;$row++)
+{
+$rowv=mysqli_fetch_array($result,MYSQLI_ASSOC);
+echo "<tr><td>".$rowv['name']."</td>";
+echo "<td>".$rowv['emp_id']."</td></tr>";
+echo "<td>".$rowv['exp']."</td></tr>";
+
+}
+echo "</table>";
+mysqli_close($con);
+?>
+<h4>Enter id to be searched</h4>
+<form action="http://localhost:2312/miniprj/search1.php" method="post">
+Enter id to be searched:<input type="text" name="emp_id"/>
+<input type="submit" value="Search"/>
+<input type="reset" value="reset"/>
+</form>
+</div>
+</body>
+</html>
+
+search1.php
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insertion of Employee information to Database</title>
+<style type="text/css">
+body{background: url('color bg14.jpg');
+background-size: 100%;
+background- repeat:no-repeat;
+z-index:3}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+.mid {
+        display: block;
+        width: 36%;
+        margin: 29px auto;
+        <--border: 2px solid green;-->
+		<--font-family: 'Baloo Bhai', cursive;-->
+		font-family: times new roman;
+		font-size: 20px;
+		<--background: url('color bg7.jpg'); 
+		background-size: 100%;
+		background-repeat: no-repeat;-->
+		
+    }
+	.navbar ul{ overflow: auto;
+	}
+	<--.navbar{ background-color: white;}-->
+	.navbar li{ float: left;
+	list-style: none;
+	padding: 10px 10px;
+	margin: 10px 10px;
+	
+	}
+	.navbar li a {
+        color: black;
+        text-decoration: none;
+        padding: 10px 10px;
+		}
+.content {
+		background: url('color bg 16.jpg');
+		background-size: 100%;
+        border: 2px solid white;
+        margin: 120px 250px;
+        padding: 50px;
+        width: 70%;
+        border-radius: 28px;
+        display: inline-block;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+</style></head>
+<body>
+<header>
+<div class='left'>
+<img src='gala.png' alt='logo-image'>
+</div>
+<div class="mid">
+<nav class='navbar'>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+			</nav>
+        </div>
+</header>
+<div class="content">
+<?php
+$emp_id=$_POST['emp_id'];
+$con=mysqli_connect("localhost","root","");
+if(!($con))
+{
+	die("error in connecting to DB");
+}
+else
+{
+	print "<i style='color:green'>connection successfull</i><br />";
+}
+$db=mysqli_select_db($con,"userinfo");
+$result=mysqli_query($con,"select * from user_detail where emp_id='$emp_id'");
+$rows=mysqli_num_rows($result);
+if($rows==0)
+{
+echo "<i style='color:red;'>There are no rows with the name as $emp_id<i>";
+}
+else
+{
+echo "<i style='color:blue'>num of rows in the user_detail table with user name as $emp_id are $rows</i><br />";
+echo "<table border='1'><tr><th>idea</th><th>id</th><th>exp</ht></tr>";
+for($row=1;$row<=$rows;$row++)
+{
+
+$rowv=mysqli_fetch_array($result,MYSQLI_ASSOC);
+echo "<tr><td>".$rowv['name']."</td>";
+echo "<td>".$rowv['emp_id']."</td></tr>";
+echo "<td>".$rowv['exp']."</td></tr>";
+}
+echo "</table>";
+}
+mysqli_close($con);
+?>
+</form>
+</div>
+</body>
+</html>
+
+style.css
+body {
+
+    background: url('color bg14.jpg');
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    height: 100vh;
+
+    flex-direction: column;
+	background-repeat: no-repeat;
+	background-size: 100%;
+
+}
+
+*{
+
+    font-family: cursive;
+
+    box-sizing: padding-box;
+
+}
+
+form {
+
+    width: 1000px;
+
+    border: 3px solid rgb(177, 142, 142);
+
+    padding: 20px;
+
+    background: url('color bg 16.jpg');
+
+    border-radius: 20px;
+	background-repeat: no-repeat;
+	background-size: 100%;
+
+}
+
+h2 {
+
+    text-align: center;
+
+    margin-bottom: 40px;
+
+}
+
+input {
+
+    display: block;
+
+    border: 2px solid #ccc;
+
+    width: 95%;
+
+    padding: 10px;
+
+    margin: 10px auto;
+
+    border-radius: 5px;
+
+}
+
+label {
+
+    color: #888;
+
+    font-size: 18px;
+
+    padding: 10px;
+
+}
+
+button {
+
+    float: right;
+
+    background: rgb(35, 174, 202);
+
+    padding: 10px 15px;
+
+    color: #fff;
+
+    border-radius: 5px;
+
+    margin-right: 10px;
+
+    border: none;
+
+}
+
+button:hover{
+
+    opacity: .10;
+
+}
+
+.error {
+
+   background: #F2DEDE;
+
+   color: #0c0101;
+
+   padding: 10px;
+
+   width: 95%;
+
+   border-radius: 5px;
+
+   margin: 20px auto;
+
+}
+
+h1 {
+
+    text-align: center;
+
+    color: rgb(134, 3, 3);
+
+}
+
+a {
+
+    float: right;
+
+    background: rgb(183, 225, 233);
+
+    padding: 10px 15px;
+
+    color: #fff;
+
+    border-radius: 10px;
+
+    margin-right: 10px;
+
+    border: none;
+
+    text-decoration: none;
+
+}
+
+a:hover{
+
+    opacity: .7;
+
+}
+.left {
+        display: inline-block;
+        border: 2px solid purple; 
+        position: absolute;
+        left: 60px;
+        top: 20px;
+		}
+.left img{
+width: 175px;
+}
+
